@@ -1,11 +1,19 @@
 ## ElectronJS Desktop App Starter
 Frontend for the n1ch0la5/aioli-laravel repo
 
+# includes
+- Electron - Vite/Vue/script setup/typescript
 - Pinia
-- Tailwindcss
+- Tailwindcss (with dark mode switcher)
 - Laravel Echo/Pusher for websockets
 - Vue Router
 - Sanctum Auth Mobile Application Setup
+
+# setup
+- clone to your machine
+- npm install
+- set up env variables
+- npm run dev
 
 
 # electron-vite-vue

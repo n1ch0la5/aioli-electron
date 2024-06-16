@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue'
+import { onBeforeMount, onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import { api } from './utils/api'
 import { useAuthStore } from './stores/auth'
 import { router } from './routes'
+import ThemeSwitcher from './components/ThemeSwitcher.vue'
+import { useThemeStore } from './stores/theme'
 
-const authStore = useAuthStore()
-const { isLoggedIn } = storeToRefs(authStore)
-const { login, logout, user } = authStore;
+const authStore = useAuthStore();
+const { isLoggedIn } = storeToRefs(authStore);
+const themeStore = useThemeStore();
+const { mode } = storeToRefs(themeStore);
 
 onBeforeMount(async() => {
   if(!isLoggedIn.value){
@@ -15,11 +17,26 @@ onBeforeMount(async() => {
   }
 });
 
+const themeLogic = (mode:string) => {
+  if(mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+    document.documentElement.classList.add('dark')
+  }else{
+    document.documentElement.classList.remove('dark')
+  }
+}
 
+watch(mode, async (newMode) => {
+  themeLogic(newMode);
+})
+
+onMounted(() => {
+  themeLogic(mode.value)
+})
 </script>
 
 <template>
-  <div class="w-full h-full flex flex-col items-center justify-center text-center bg-neutral-200">
+  <div class="w-full h-full flex flex-col items-center justify-center text-center dark:bg-zinc-800">
+    <ThemeSwitcher />
     <RouterView />
   </div>
 </template>
