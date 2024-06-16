@@ -1,3 +1,13 @@
+## ElectronJS Desktop App Starter
+Frontend for the n1ch0la5/aioli-laravel repo
+
+- Pinia
+- Tailwindcss
+- Laravel Echo/Pusher for websockets
+- Vue Router
+- Sanctum Auth Mobile Application Setup
+
+
 # electron-vite-vue
 
 🥳 Really simple `Electron` + `Vue` + `Vite` boilerplate.

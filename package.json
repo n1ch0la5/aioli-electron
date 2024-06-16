@@ -25,14 +25,28 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
     "@vitejs/plugin-vue": "^5.0.4",
+    "autoprefixer": "^10.4.19",
     "electron": "^29.1.1",
     "electron-builder": "^24.13.3",
+    "laravel-echo": "^1.16.1",
+    "postcss": "^8.4.38",
+    "pusher-js": "^8.4.0-rc2",
+    "tailwindcss": "^3.4.4",
     "typescript": "^5.4.2",
     "vite": "^5.1.5",
     "vite-plugin-electron": "^0.28.4",
     "vite-plugin-electron-renderer": "^0.14.5",
+    "vite-plugin-mkcert": "^1.17.5",
     "vue": "^3.4.21",
     "vue-tsc": "^2.0.6"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "axios-auth-refresh": "^3.3.6",
+    "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.1",
+    "vue-router": "^4.3.3"
   }
 }
