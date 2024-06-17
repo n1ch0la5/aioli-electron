@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { onBeforeMount, onMounted, watch } from 'vue'
+import { onBeforeMount, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from './stores/auth'
 import { router } from './routes'
 import ThemeSwitcher from './components/ThemeSwitcher.vue'
 import { useThemeStore } from './stores/theme'
+import AppLayout from './components/layouts/AppLayout.vue'
 
 const authStore = useAuthStore();
 const { isLoggedIn } = storeToRefs(authStore);
@@ -15,6 +16,7 @@ onBeforeMount(async() => {
   if(!isLoggedIn.value){
     router.push('login');
   }
+  themeLogic(mode.value)
 });
 
 const themeLogic = (mode:string) => {
@@ -29,16 +31,15 @@ watch(mode, async (newMode) => {
   themeLogic(newMode);
 })
 
-onMounted(() => {
-  themeLogic(mode.value)
-})
 </script>
 
 <template>
-  <div class="w-full h-full flex flex-col items-center justify-center text-center dark:bg-zinc-800">
+  <AppLayout>
     <ThemeSwitcher />
-    <RouterView />
-  </div>
+    <router-view v-slot="{ Component }">
+      <component :is="Component" />
+    </router-view>
+  </AppLayout>
 </template>
 
 <style>

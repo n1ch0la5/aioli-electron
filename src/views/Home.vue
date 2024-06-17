@@ -53,8 +53,8 @@ onBeforeMount(() => {
 
     <!-- Message Input -->
     <div class="flex mb-4 border border-zinc-300 dark:border-zinc-800 rounded-md">
-      <input type="text" v-model="messageText" id="message-input" class="shadow-inner flex-grow p-2 border-none rounded-l-md focus:outline-none dark:bg-zinc-600 placeholder:dark:text-white" placeholder="Type your message">
-      <button @click.stop="submit" @keyup="submit" id="send-button" class="p-2 bg-indigo-500  text-white rounded-r-md rounded-l-none hover:bg-indigo-700">Send</button>
+      <input @keyup.enter="submit" type="text" v-model="messageText" id="message-input" class="shadow-inner flex-grow p-2 border-none rounded-l-md focus:outline-none dark:bg-zinc-600 placeholder:dark:text-white" placeholder="Type your message">
+      <button @click.stop="submit" id="send-button" class="p-2 bg-indigo-500  text-white rounded-r-md rounded-l-none hover:bg-indigo-700">Send</button>
     </div>
 
     <!-- Logout Button -->
