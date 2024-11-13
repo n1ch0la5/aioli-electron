@@ -1,6 +1,14 @@
 ## ElectronJS Desktop App Starter
 Frontend for the n1ch0la5/aioli-laravel repo
 
+## setup
+- clone repo
+- npm install
+- update env variables (All Except VITE_REVERB_PORT, and VITE_REVERB_SCHEME)
+- npm run dev
+- Sign out if still signed in from last app and sign back in.
+- You may have to close the app and reopen it at this point
+
 ## includes
 - Electron - Vite/Vue/script setup/typescript
 - Pinia
@@ -8,12 +16,6 @@ Frontend for the n1ch0la5/aioli-laravel repo
 - Laravel Echo/Pusher for websockets
 - Vue Router
 - Sanctum Auth Mobile Application Setup
-
-## setup
-- clone repo
-- npm install
-- update env variables
-- npm run dev
 
 
 # electron-vite-vue
