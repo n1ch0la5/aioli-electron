@@ -37,28 +37,55 @@ onBeforeMount(() => {
   }
 </script>
 <template>
-    <div class="flex flex-col items-center justify-center min-h-screen dark:text-zinc-300">
-       
+  <div class="flex flex-col items-center justify-center min-h-screen dark:text-zinc-300">
     <!-- Container -->
-  <div class="w-full max-w-md p-4 bg-white dark:bg-zinc-700 rounded-lg shadow-md">
-    <!-- Greeting -->
-    <h1 v-if="user?.name" class="text-2xl font-semibold mb-2">Hi, <span id="name">{{ user.name }}</span></h1>
-    <p @click="logout" class="mb-4 text-sm cursor-pointer">logout</p>
+    <div class="w-full max-w-md bg-white dark:bg-zinc-700 rounded-xl shadow-lg overflow-hidden">
+      <!-- Header with greeting and logout -->
+      <div class="px-6 py-4 bg-indigo-500 dark:bg-indigo-600 text-white flex justify-between items-center">
+        <h1 v-if="user?.name" class="text-xl font-semibold">
+          Welcome, <span id="name">{{ user.name }}</span>
+        </h1>
+        <button @click="logout" class="text-sm px-3 py-1 bg-indigo-400 hover:bg-indigo-300 rounded-md transition-colors duration-200">
+          Logout
+        </button>
+      </div>
 
-    <!-- Chat Box -->
-    <div class="flex flex-col justify-end w-full h-64 border dark:border-zinc-500 rounded-md overflow-y-auto mb-4 p-2 bg-zinc-50 dark:bg-zinc-800 text-left" id="chat-box">
-      <!-- Messages will be appended here -->
-      <p v-for="message in messages" :key="message.id">{{ message.text }}</p>
+      <!-- Chat Box -->
+      <div class="px-6 pt-4">
+        <div 
+          class="flex flex-col justify-end w-full h-72 border dark:border-zinc-500 rounded-lg overflow-y-auto mb-4 p-4 bg-zinc-50 dark:bg-zinc-800 text-left" 
+          id="chat-box"
+        >
+          <p 
+            v-for="message in messages" 
+            :key="message.id" 
+            class="py-2 px-3 mb-2 bg-indigo-100 dark:bg-zinc-700 rounded-lg text-zinc-500 dark:text-zinc-400"
+          >
+            {{ message.text }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Message Input -->
+      <div class="px-6 pb-6">
+        <div class="flex border border-zinc-200 dark:border-zinc-600 rounded-lg overflow-hidden">
+          <input 
+            @keyup.enter="submit" 
+            type="text" 
+            v-model="messageText" 
+            id="message-input" 
+            class="shadow-inner flex-grow p-3 border-none focus:outline-none dark:bg-zinc-600 placeholder:text-zinc-400 dark:placeholder:text-zinc-400" 
+            placeholder="Type your message..."
+          >
+          <button 
+            @click.stop="submit" 
+            id="send-button" 
+            class="px-4 bg-indigo-500 text-white hover:bg-indigo-700 transition-colors duration-200 flex items-center"
+          >
+            Send
+          </button>
+        </div>
+      </div>
     </div>
-
-    <!-- Message Input -->
-    <div class="flex mb-4 border border-zinc-300 dark:border-zinc-800 rounded-md">
-      <input @keyup.enter="submit" type="text" v-model="messageText" id="message-input" class="shadow-inner flex-grow p-2 border-none rounded-l-md focus:outline-none dark:bg-zinc-600 placeholder:dark:text-white" placeholder="Type your message">
-      <button @click.stop="submit" id="send-button" class="p-2 bg-indigo-500  text-white rounded-r-md rounded-l-none hover:bg-indigo-700">Send</button>
-    </div>
-
-    <!-- Logout Button -->
-    <!-- <button @click="logout" id="logout-button" class="w-full py-2 bg-red-500 text-white rounded-md hover:bg-red-700">Logout</button> -->
   </div>
-    </div>
 </template>
