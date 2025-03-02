@@ -1,11 +1,13 @@
-// clearStorage.js
-const fs = require('fs');
-const path = require('path');
-const os = require('os');
+// clearStorage-simple.js - Direct filesystem approach with ES modules
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
 
-// Function to get the app's user data directory based on OS
-function getUserDataPath(appName) {
+// Function to get the Electron app's user data directory based on OS
+function getUserDataPath() {
   const homePath = os.homedir();
+  // Hardcode your app name here
+  const appName = 'dashboard'; // Update this to match your app name
   
   switch (process.platform) {
     case 'win32':
@@ -15,38 +17,55 @@ function getUserDataPath(appName) {
     case 'linux':
       return path.join(homePath, '.config', appName);
     default:
-      throw new Error('Unsupported platform');
+      console.log('Unsupported platform');
+      return null;
   }
 }
 
 try {
-  // Read package.json to get the app name
-  const packageJson = require('./package.json');
-  const appName = packageJson.name;
+  const userDataPath = getUserDataPath();
   
-  const userDataPath = getUserDataPath(appName);
+  if (!userDataPath) {
+    console.log('Could not determine user data path for this platform');
+    process.exit(0);
+  }
+  
+  console.log(`Looking for Electron storage in: ${userDataPath}`);
+  
+  // Check for Local Storage
   const localStoragePath = path.join(userDataPath, 'Local Storage');
-  
-  console.log(`Looking for storage in: ${localStoragePath}`);
-  
   if (fs.existsSync(localStoragePath)) {
-    const files = fs.readdirSync(localStoragePath);
+    console.log('Found Local Storage directory');
     
-    if (files.length > 0) {
-      files.forEach(file => {
-        if (file.includes('leveldb')) {
-          const filePath = path.join(localStoragePath, file);
-          fs.unlinkSync(filePath);
-          console.log(`Removed: ${file}`);
-        }
-      });
-      console.log('Local Storage cleared successfully');
-    } else {
-      console.log('No storage files found');
+    try {
+      const files = fs.readdirSync(localStoragePath);
+      
+      if (files.length === 0) {
+        console.log('No files found in Local Storage directory');
+      } else {
+        files.forEach(file => {
+          try {
+            const filePath = path.join(localStoragePath, file);
+            const stats = fs.statSync(filePath);
+            
+            if (stats.isFile() && !file.startsWith('.')) {
+              fs.unlinkSync(filePath);
+              console.log(`Removed: ${file}`);
+            }
+          } catch (fileError) {
+            console.log(`Error processing file ${file}: ${fileError.message}`);
+          }
+        });
+        console.log('Local Storage files cleared');
+      }
+    } catch (readError) {
+      console.log(`Error reading directory: ${readError.message}`);
     }
   } else {
-    console.log('No Local Storage directory exists yet');
+    console.log('No Local Storage directory exists yet. Nothing to clear.');
   }
+  
+  console.log('Storage clearing completed');
 } catch (error) {
-  console.error('Error:', error);
+  console.error(`Error clearing storage: ${error.message}`);
 }
