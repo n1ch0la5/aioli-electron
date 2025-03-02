@@ -1,3 +1,3 @@
 // clear local storage between apps
-localStorage.clear();
+global?.localStorage.clear();
 console.log('localStorage cleared successfully');
